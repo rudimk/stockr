@@ -1,0 +1,4 @@
+flask
+requests
+blitzdb
+flask-debugtoolbar
