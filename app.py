@@ -21,7 +21,20 @@ class Stock(Document):
 
 # Yeah, that's it. 
 
-
+@app.route('/index', methods=['GET', 'POST'])
+def index_view():
+	if request.method == 'POST':
+		email = request.form['email']
+		subscriber_query = backend.get(Subscriber, {'email': email})
+		try:
+			return redirect('/dashboard')
+		except Subscriber.DoesNotExist:
+			new_subscriber = Subscriber({'email': email, 'subscriber_id': ''})
+			new_subscriber.stocks = []
+			backend.save(new_subscriber)
+			backend.commit()
+			return redirect('/subscribe')
+	return render_template('/index.html')
 
 
 if __name__ == '__main__':
